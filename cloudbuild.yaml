@@ -2,28 +2,24 @@ steps:
   # Build the backend container
   - name: 'gcr.io/cloud-builders/docker'
     args: [
-      'build',
+      'buildx', 'build',
+      '--platform', 'linux/amd64',
       '-t', 'us-east1-docker.pkg.dev/hopeful-lexicon-412010/rally-app-repo/rally-backend:$COMMIT_SHA',
       '-f', 'java-backend/rally-data-viewer/Dockerfile',
+      '--push',
       'java-backend/rally-data-viewer'
     ]
 
   # Build the frontend container
   - name: 'gcr.io/cloud-builders/docker'
     args: [
-      'build',
+      'buildx', 'build',
+      '--platform', 'linux/amd64',
       '-t', 'us-east1-docker.pkg.dev/hopeful-lexicon-412010/rally-app-repo/rally-frontend:$COMMIT_SHA',
       '-f', 'react-frontend/front-rally-data-viewer/Dockerfile',
+      '--push',
       'react-frontend/front-rally-data-viewer'
     ]
-
-  # Push the backend container to Artifact Registry
-  - name: 'gcr.io/cloud-builders/docker'
-    args: ['push', 'us-east1-docker.pkg.dev/hopeful-lexicon-412010/rally-app-repo/rally-backend:$COMMIT_SHA']
-
-  # Push the frontend container to Artifact Registry
-  - name: 'gcr.io/cloud-builders/docker'
-    args: ['push', 'us-east1-docker.pkg.dev/hopeful-lexicon-412010/rally-app-repo/rally-frontend:$COMMIT_SHA']
 
   # Deploy backend to Cloud Run
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
