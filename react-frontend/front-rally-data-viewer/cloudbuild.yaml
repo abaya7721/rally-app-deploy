@@ -6,25 +6,25 @@ steps:
 
   # Build the frontend container
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['build', '-t', 'us-east1-docker.pkg.dev/$PROJECT_ID/rally-app-repo/rally-frontend:$COMMIT_SHA', '.']
+    args: ['build', '-t', 'us-east1-docker.pkg.dev/hopeful-lexicon-412010/rally-app-repo/rally-frontend:$COMMIT_SHA', '.']
 
   # Push the frontend container to Artifact Registry
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['push', 'us-east1-docker.pkg.dev/$PROJECT_ID/rally-app-repo/rally-frontend:$COMMIT_SHA']
+    args: ['push', 'us-east1-docker.pkg.dev/hopeful-lexicon-412010/rally-app-repo/rally-frontend:$COMMIT_SHA']
 
   # Deploy frontend to Cloud Run
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
     entrypoint: gcloud
     args: [
       'run', 'deploy', 'rally-frontend',
-      '--image', 'us-east1-docker.pkg.dev/$PROJECT_ID/rally-app-repo/rally-frontend:$COMMIT_SHA',
+      '--image', 'us-east1-docker.pkg.dev/hopeful-lexicon-412010/rally-app-repo/rally-frontend:$COMMIT_SHA',
       '--region', 'us-east1',
       '--platform', 'managed',
       '--allow-unauthenticated'
     ]
 
 images:
-  - 'us-east1-docker.pkg.dev/$PROJECT_ID/rally-app-repo/rally-frontend:$COMMIT_SHA'
+  - 'us-east1-docker.pkg.dev/hopeful-lexicon-412010/rally-app-repo/rally-frontend:$COMMIT_SHA'
 
 options:
   logging: CLOUD_LOGGING_ONLY
