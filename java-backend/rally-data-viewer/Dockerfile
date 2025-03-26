@@ -14,10 +14,6 @@ COPY --from=builder /app/target/*.jar app.jar
 RUN addgroup --system javauser && adduser --system --ingroup javauser javauser
 USER javauser
 
-# Expose the port the app runs on
-ENV PORT=8080
-EXPOSE ${PORT}
-
 # Add healthcheck
 HEALTHCHECK --interval=30s --timeout=3s --start-period=60s --retries=3 \
   CMD wget --no-verbose --tries=1 --spider http://localhost:${PORT}/actuator/health || exit 1
