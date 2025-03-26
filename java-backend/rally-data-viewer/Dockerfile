@@ -18,5 +18,9 @@ USER javauser
 ENV PORT=8080
 EXPOSE ${PORT}
 
+# Add healthcheck
+HEALTHCHECK --interval=30s --timeout=3s --start-period=60s --retries=3 \
+  CMD wget --no-verbose --tries=1 --spider http://localhost:${PORT}/actuator/health || exit 1
+
 # Command to run the application
-ENTRYPOINT ["sh", "-c", "java -jar app.jar --server.port=${PORT} --server.address=0.0.0.0"] 
+ENTRYPOINT ["sh", "-c", "java -jar app.jar"] 
