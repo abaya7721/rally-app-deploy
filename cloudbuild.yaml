@@ -33,7 +33,7 @@ steps:
       '--timeout', '3600'
     ]
 
-  # Deploy frontend to Cloud Run
+  # Deploy frontend to Cloud Run with backend URL
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
     entrypoint: gcloud
     args: [
@@ -41,7 +41,8 @@ steps:
       '--image', 'us-east1-docker.pkg.dev/hopeful-lexicon-412010/rally-app-repo/rally-frontend:$COMMIT_SHA',
       '--region', 'us-east1',
       '--platform', 'managed',
-      '--allow-unauthenticated'
+      '--allow-unauthenticated',
+      '--set-env-vars', 'VITE_BACKEND_URL=https://rally-backend-${PROJECT_ID}.run.app'
     ]
 
 images:
