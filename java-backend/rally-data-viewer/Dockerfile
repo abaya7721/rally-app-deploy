@@ -14,9 +14,16 @@ COPY --from=builder /app/target/*.jar app.jar
 RUN addgroup --system javauser && adduser --system --ingroup javauser javauser
 USER javauser
 
-# Add healthcheck
-HEALTHCHECK --interval=30s --timeout=3s --start-period=60s --retries=3 \
+# Add healthcheck with proper timeout
+HEALTHCHECK --interval=30s --timeout=5s --start-period=60s --retries=3 \
   CMD wget --no-verbose --tries=1 --spider http://localhost:${PORT}/actuator/health || exit 1
 
-# Command to run the application
-ENTRYPOINT ["sh", "-c", "java -jar app.jar"] 
+# Command to run the application with container-optimized settings
+ENTRYPOINT ["sh", "-c", "java \
+  -XX:+UseG1GC \
+  -XX:MaxGCPauseMillis=200 \
+  -XX:+UseStringDeduplication \
+  -XX:+ParallelRefProcEnabled \
+  -XX:+UseContainerSupport \
+  -XX:MaxRAMPercentage=75.0 \
+  -jar app.jar"] 

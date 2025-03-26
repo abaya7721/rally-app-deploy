@@ -29,7 +29,8 @@ steps:
       '--image', 'us-east1-docker.pkg.dev/hopeful-lexicon-412010/rally-app-repo/rally-backend:$COMMIT_SHA',
       '--region', 'us-east1',
       '--platform', 'managed',
-      '--allow-unauthenticated'
+      '--allow-unauthenticated',
+      '--timeout', '3600'
     ]
 
   # Deploy frontend to Cloud Run
