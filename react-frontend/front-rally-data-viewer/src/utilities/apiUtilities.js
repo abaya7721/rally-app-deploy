@@ -1,3 +1,5 @@
+import config from '../config';
+
 const login = async (user) => {
     try {
         // Ensure the login payload matches the backend's expected structure
@@ -6,7 +8,7 @@ const login = async (user) => {
             password: user.password,  // Send as plain text - backend will handle BCrypt validation
         };
 
-        const response = await fetch("http://localhost:8080/api/users/login", {
+        const response = await fetch(`${config.backendUrl}/api/users/login`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -46,7 +48,7 @@ const signup = async (user) => {
             roles: [role]  // Set role based on username
         };
 
-        const response = await fetch("http://localhost:8080/api/users/signup", {
+        const response = await fetch(`${config.backendUrl}/api/users/signup`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -74,19 +76,19 @@ const signup = async (user) => {
 }
 
 const getUsers = () => {
-    return fetch("http://localhost:8080/api/users",
+    return fetch(`${config.backendUrl}/api/users`,
         {
             method: "GET",
             headers: {"Content-Type": "application/json", "Authorization": "Bearer " + localStorage.getItem('key')},
         }).then(response => response.json());
 }
-const getMe = () => {
-return fetch("http://localhost:8080/rally/api/users/me",
-    {
-        method: "GET",
-        headers: {"Content-Type": "application/json", "Authorization": "Bearer " + localStorage.getItem('key')},
-    }).then(response => response.json());
-}
 
+const getMe = () => {
+    return fetch(`${config.backendUrl}/rally/api/users/me`,
+        {
+            method: "GET",
+            headers: {"Content-Type": "application/json", "Authorization": "Bearer " + localStorage.getItem('key')},
+        }).then(response => response.json());
+}
 
 export {login, signup, getUsers, getMe};

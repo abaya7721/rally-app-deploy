@@ -1,6 +1,7 @@
 import React from 'react';
+import config from '../../config';
 
-const BASE_URL = 'http://localhost:8080/rally';
+const BASE_URL = `${config.backendUrl}/rally`;
 
 export const AdminOperations = {
   // POST operations

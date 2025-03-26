@@ -1,0 +1,70 @@
+steps:
+  # Build the Spring Boot backend
+  - name: 'gcr.io/cloud-builders/maven'
+    args: ['clean', 'package', '-DskipTests']
+    dir: 'java-backend/rally-data-viewer'
+    env:
+      - 'JAVA_HOME=/usr/lib/jvm/java-21'
+
+  # Build the backend container
+  - name: 'gcr.io/cloud-builders/docker'
+    args: [
+      'build',
+      '-t', 'us-east1-docker.pkg.dev/hopeful-lexicon-412010/rally-app-repo/rally-backend:$COMMIT_SHA',
+      '-f', 'java-backend/rally-data-viewer/Dockerfile',
+      'java-backend/rally-data-viewer'
+    ]
+
+  # Build the React frontend
+  - name: 'node:20'
+    entrypoint: npm
+    args: ['install', '&&', 'npm', 'run', 'build']
+    dir: 'react-frontend/front-rally-data-viewer'
+
+  # Build the frontend container
+  - name: 'gcr.io/cloud-builders/docker'
+    args: [
+      'build',
+      '-t', 'us-east1-docker.pkg.dev/hopeful-lexicon-412010/rally-app-repo/rally-frontend:$COMMIT_SHA',
+      '-f', 'react-frontend/front-rally-data-viewer/Dockerfile',
+      'react-frontend/front-rally-data-viewer'
+    ]
+
+  # Push the backend container to Artifact Registry
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'us-east1-docker.pkg.dev/hopeful-lexicon-412010/rally-app-repo/rally-backend:$COMMIT_SHA']
+
+  # Push the frontend container to Artifact Registry
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'us-east1-docker.pkg.dev/hopeful-lexicon-412010/rally-app-repo/rally-frontend:$COMMIT_SHA']
+
+  # Deploy backend to Cloud Run
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: gcloud
+    args: [
+      'run', 'deploy', 'rally-backend',
+      '--image', 'us-east1-docker.pkg.dev/hopeful-lexicon-412010/rally-app-repo/rally-backend:$COMMIT_SHA',
+      '--region', 'us-east1',
+      '--platform', 'managed',
+      '--allow-unauthenticated'
+    ]
+
+  # Deploy frontend to Cloud Run
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: gcloud
+    args: [
+      'run', 'deploy', 'rally-frontend',
+      '--image', 'us-east1-docker.pkg.dev/hopeful-lexicon-412010/rally-app-repo/rally-frontend:$COMMIT_SHA',
+      '--region', 'us-east1',
+      '--platform', 'managed',
+      '--allow-unauthenticated'
+    ]
+
+images:
+  - 'us-east1-docker.pkg.dev/hopeful-lexicon-412010/rally-app-repo/rally-backend:$COMMIT_SHA'
+  - 'us-east1-docker.pkg.dev/hopeful-lexicon-412010/rally-app-repo/rally-frontend:$COMMIT_SHA'
+
+options:
+  logging: CLOUD_LOGGING_ONLY
+
+timeout: '1800s' 

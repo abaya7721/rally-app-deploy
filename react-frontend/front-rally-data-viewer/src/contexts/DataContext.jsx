@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useReducer, useState } from 'react';
 import { dataReducer, initialState } from '../reducers/dataFilter';
+import config from '../config';
 
 const DataContext = createContext();
 
@@ -63,7 +64,7 @@ export const DataProvider = ({ children }) => {
     setError(prev => ({ ...prev, standings: null }));
     try {
       console.log('Fetching standings...');
-      const response = await fetch('http://localhost:8080/rally/standings2016', {
+      const response = await fetch(`${config.backendUrl}/rally/standings2016`, {
         method: 'GET',
         headers: getAuthHeaders()
       });
@@ -91,7 +92,7 @@ export const DataProvider = ({ children }) => {
     setError(prev => ({ ...prev, raceResults: null }));
     try {
       console.log('Fetching race results...');
-      const response = await fetch('http://localhost:8080/rally/results2016', {
+      const response = await fetch(`${config.backendUrl}/rally/results2016`, {
         method: 'GET',
         headers: getAuthHeaders()
       });
@@ -119,7 +120,7 @@ export const DataProvider = ({ children }) => {
     setError(prev => ({ ...prev, vehicleResults: null }));
     try {
       console.log('Fetching vehicle results...');
-      const response = await fetch('http://localhost:8080/rally/results2016/vehicle', {
+      const response = await fetch(`${config.backendUrl}/rally/results2016/vehicle`, {
         method: 'GET',
         headers: getAuthHeaders()
       });
