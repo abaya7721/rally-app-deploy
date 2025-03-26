@@ -1,33 +1,21 @@
-steps:
-  # Build the Spring Boot backend
-  - name: 'gcr.io/cloud-builders/maven'
-    args: ['clean', 'package', '-DskipTests']
-    env:
-      - 'JAVA_HOME=/usr/lib/jvm/java-21'
+ steps:
+ # Build the container image
+ - name: 'gcr.io/cloud-builders/docker'
+   args: [
+    'build', 
+    '-t', 'us-east1-docker.pkg.dev/$PROJECT_ID/my-app-repo/my-app-backend-image:$COMMIT_SHA', 
+    '-f', './my-app-backend/Dockerfile.prod',
+    './my-app-backend']
 
-  # Build the backend container
-  - name: 'gcr.io/cloud-builders/docker'
-    args: ['build', '-t', 'us-east1-docker.pkg.dev/hopeful-lexicon-412010/rally-app-repo/rally-backend:$COMMIT_SHA', '.']
-
-  # Push the backend container to Artifact Registry
-  - name: 'gcr.io/cloud-builders/docker'
-    args: ['push', 'us-east1-docker.pkg.dev/hopeful-lexicon-412010/rally-app-repo/rally-backend:$COMMIT_SHA']
-
-  # Deploy backend to Cloud Run
-  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
-    entrypoint: gcloud
-    args: [
-      'run', 'deploy', 'rally-backend',
-      '--image', 'us-east1-docker.pkg.dev/hopeful-lexicon-412010/rally-app-repo/rally-backend:$COMMIT_SHA',
-      '--region', 'us-east1',
-      '--platform', 'managed',
-      '--allow-unauthenticated'
-    ]
-
-images:
-  - 'us-east1-docker.pkg.dev/hopeful-lexicon-412010/rally-app-repo/rally-backend:$COMMIT_SHA'
-
-options:
-  logging: CLOUD_LOGGING_ONLY
-
-timeout: '1800s' 
+ # Push the container image to Artifact Registry
+ - name: 'gcr.io/cloud-builders/docker'
+   args: ['push', 'us-east1-docker.pkg.dev/$PROJECT_ID/my-app-repo/my-app-backend-image:$COMMIT_SHA']
+ 
+ # Deploy container to Cloud Run
+ - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+   entrypoint: gcloud
+   args: [
+   'run', 'deploy', 'my-app-backend',
+   '--image', 'us-east1-docker.pkg.dev/$PROJECT_ID/my-app-repo/my-app-backend-image:$COMMIT_SHA',
+   '--region', 'us-east1',
+   '--allow-unauthenticated']
