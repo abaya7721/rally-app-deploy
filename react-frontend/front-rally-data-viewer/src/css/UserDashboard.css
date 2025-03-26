@@ -1,0 +1,321 @@
+.user-dashboard {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  background-color: #1a1a1a;
+  color: white;
+  padding-bottom: 100px;
+}
+
+.banner-image-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.banner-background-image {
+  width: 100%;
+  height: 100%;
+  background-image: url('../assets/bg-rally-car-aykut-ercun.jpg');
+  background-size: cover;
+  background-position: center;
+  filter: brightness(0.7) blur(2px);
+  transform: scale(1.1);
+}
+
+.image-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to bottom, rgba(26, 26, 26, 0.3), rgba(26, 26, 26, 0.9));
+}
+
+.user-banner-content-container {
+  position: relative;
+  width: 80%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+  background: rgba(42, 43, 44, 0.7);
+  backdrop-filter: blur(10px);
+  border-radius: 15px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  z-index: 2;
+  top: 5vh;
+  margin-bottom: 100px;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.user-banner-text {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.banner-title {
+  font-size: 3rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: #ffffff;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.banner-tagline {
+  font-size: 1.5rem;
+  color: #ebae2a;
+  margin-bottom: 2rem;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* Controls section for buttons and filters */
+.controls-section {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+  padding: 1.5rem;
+  backdrop-filter: blur(5px);
+  width: 80%;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.data-options {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  max-width: 500px;
+  margin: 0 auto 2rem auto;
+}
+
+.option-button {
+  padding: 1.2rem 2rem;
+  font-size: 1.1rem;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  color: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  width: 100%;
+  max-width: 350px;
+  margin: 0 auto;
+}
+
+.option-button:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
+}
+
+.option-button.active {
+  background: rgba(255, 255, 255, 0.3);
+  border-color: rgba(255, 255, 255, 0.4);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Data display section */
+.data-section {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+  padding: 1.5rem;
+  backdrop-filter: blur(5px);
+  margin-top: 2rem;
+}
+
+.data-section-title {
+  color: #ffd700;
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  text-align: left;
+  line-height: 1.4;
+  letter-spacing: 0.02em;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid rgba(255, 215, 0, 0.2);
+}
+
+.data-section-subtitle {
+  color: #ffffff;
+  font-size: 1.1rem;
+  margin-bottom: 1.5rem;
+  text-align: left;
+  line-height: 1.4;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.data-section-subtitle span {
+  color: #ffd700;
+  font-weight: 500;
+  background: rgba(255, 215, 0, 0.1);
+  padding: 0.3rem 0.8rem;
+  border-radius: 4px;
+}
+
+.data-section h4 {
+  color: #ffd700;
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+  text-align: left;
+}
+
+.data-section div {
+  color: #ffffff;
+  font-size: 1rem;
+  margin-bottom: 1rem;
+  text-align: left;
+}
+
+.data-section span {
+  color: #ffd700;
+  font-size: 1rem;
+  margin-bottom: 1rem;
+  text-align: left;
+}
+
+.data-display {
+  background: rgba(94, 88, 8, 0.404);
+  border-radius: 8px;
+  padding: 1.5rem;
+  min-height: 200px;
+  max-height: 60vh;
+  overflow-y: auto;
+}
+
+.loading {
+  text-align: center;
+  font-size: 1.2rem;
+  color: #e0e0e0;
+}
+
+.error {
+  color: #ff6b6b;
+  text-align: center;
+  padding: 1rem;
+  background: rgba(255, 107, 107, 0.1);
+  border-radius: 8px;
+}
+
+.filter-controls {
+  margin: 2rem 0;
+  padding: 1.5rem;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+  backdrop-filter: blur(5px);
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+.filter-group {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+
+.clear-filters-button {
+  width: 100%;
+  padding: 0.8rem;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 6px;
+  color: white;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.clear-filters-button:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
+}
+
+.filter-select {
+  flex: 1;
+  min-width: 200px;
+  max-width: 100%;
+  padding: 0.8rem;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 6px;
+  color: white;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 0.8rem center;
+  background-size: 1.2rem;
+  padding-right: 2.5rem;
+}
+
+.filter-select option {
+  background-color: #1a1a1a;
+  color: white;
+  padding: 0.8rem;
+}
+
+.filter-select:focus {
+  outline: none;
+  border-color: rgba(255, 255, 255, 0.4);
+  background-color: rgba(255, 255, 255, 0.15);
+}
+
+.filter-select:hover {
+  background-color: rgba(255, 255, 255, 0.15);
+}
+
+/* Update responsive design for controls section */
+@media (max-width: 1024px) {
+  .controls-section {
+    width: 90%;
+  }
+}
+
+@media (max-width: 768px) {
+  .controls-section {
+    width: 95%;
+    padding: 1rem;
+  }
+
+  .user-banner-content-container {
+    width: 95%;
+    top: 2vh;
+    padding: 1rem;
+  }
+
+  .banner-title {
+    font-size: 2rem;
+  }
+
+  .banner-tagline {
+    font-size: 1.1rem;
+  }
+
+  .option-button {
+    padding: 1rem 1.5rem;
+    font-size: 1rem;
+  }
+
+  .data-display {
+    max-height: 50vh;
+  }
+}
+
+/* Add styles for the footer */
+footer {
+  position: relative;
+  z-index: 2;
+  background: rgba(26, 26, 26, 0.9);
+  padding: 1rem;
+  text-align: center;
+  margin-top: 2rem;
+} 
